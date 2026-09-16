@@ -1,0 +1,801 @@
+# Student Performance Prediction Using Random Forest
+
+## Description
+
+This project is my Day 17 project in my Artificial Intelligence and Machine Learning learning journey.
+
+The goal of this project is to use a Random Forest Classification model to predict whether a student will pass or fail based on different academic performance features.
+
+The project also analyzes feature importance and compares Random Forest with a Decision Tree model.
+
+The main concepts covered in this project are:
+
+- Random Forest Classification
+- Decision Tree Classification
+- Train/Test Split
+- Model Predictions
+- Accuracy
+- Confusion Matrix
+- Feature Importance
+- Feature Ranking
+- Model Comparison
+- Predicting new students
+
+---
+
+# Dataset
+
+The project uses a student dataset stored in:
+
+```text
+student_data.csv
+```
+
+The dataset contains information about student academic performance.
+
+The main features used by the machine learning models are:
+
+- `Study_Hours`
+- `Attendance`
+- `Assignment_Score`
+- `Midterm_Score`
+- `Exam_Score`
+
+The target variable is:
+
+```text
+Final_Result
+```
+
+The target values are converted into numerical values:
+
+```text
+Pass = 1
+Fail = 0
+```
+
+---
+
+# Technologies Used
+
+- Python
+- Pandas
+- NumPy
+- Scikit-learn
+- Matplotlib
+
+---
+
+# Libraries Used
+
+## Pandas
+
+Pandas is used to load and work with the student dataset.
+
+```python
+import pandas as pd
+```
+
+The dataset is loaded using:
+
+```python
+df = pd.read_csv("student_data.csv")
+```
+
+---
+
+## NumPy
+
+NumPy is used to create arrays and find the most and least important features.
+
+```python
+import numpy as np
+```
+
+For example:
+
+```python
+np.argmax()
+```
+
+is used to find the index of the highest feature importance.
+
+```python
+np.argmin()
+```
+
+is used to find the index of the lowest feature importance.
+
+---
+
+## Matplotlib
+
+Matplotlib is used to create the feature importance chart.
+
+```python
+import matplotlib.pyplot as plt
+```
+
+---
+
+## Scikit-learn
+
+Scikit-learn is used for:
+
+- Train/test splitting
+- Random Forest
+- Decision Tree
+- Accuracy calculation
+- Confusion matrix
+
+---
+
+# Machine Learning Features
+
+The model uses five features:
+
+```text
+Study_Hours
+Attendance
+Assignment_Score
+Midterm_Score
+Exam_Score
+```
+
+These features are stored in `X`.
+
+```python
+X = df[
+    [
+        "Study_Hours",
+        "Attendance",
+        "Assignment_Score",
+        "Midterm_Score",
+        "Exam_Score"
+    ]
+]
+```
+
+---
+
+# Target Variable
+
+The target variable is the student's final result.
+
+```python
+y = df["Final_Result"].map({
+    "Pass": 1,
+    "Fail": 0
+})
+```
+
+Therefore:
+
+```text
+1 → Pass
+0 → Fail
+```
+
+---
+
+# Train/Test Split
+
+The dataset is divided into training and testing data.
+
+```python
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42
+)
+```
+
+The model uses:
+
+```text
+80% → Training data
+20% → Testing data
+```
+
+The training data is used to teach the model.
+
+The testing data is used to evaluate how well the model performs on unseen data.
+
+---
+
+# Random Forest
+
+The main machine learning model used in this project is Random Forest.
+
+```python
+model = RandomForestClassifier(
+    n_estimators=100,
+    random_state=42
+)
+```
+
+Random Forest is an ensemble learning algorithm.
+
+It creates multiple decision trees and combines their predictions to make a final prediction.
+
+The number of trees in this project is:
+
+```text
+100
+```
+
+---
+
+# Making Predictions
+
+After training the model, predictions are made using:
+
+```python
+predictions = model.predict(X_test)
+```
+
+The predictions are compared with the actual results from the test dataset.
+
+---
+
+# Accuracy
+
+Accuracy is used to measure how many predictions were correct.
+
+```python
+accuracy = accuracy_score(
+    y_test,
+    predictions
+)
+```
+
+The accuracy is displayed as:
+
+```text
+Random Forest Accuracy: 0.xx
+```
+
+A higher accuracy generally means that the model made more correct predictions on the test data.
+
+---
+
+# Confusion Matrix
+
+The project also creates a confusion matrix.
+
+```python
+cm = confusion_matrix(
+    y_test,
+    predictions
+)
+```
+
+A confusion matrix helps show how the model classified the students.
+
+It helps identify:
+
+- Correct Pass predictions
+- Correct Fail predictions
+- Incorrect Pass predictions
+- Incorrect Fail predictions
+
+---
+
+# Predicting a New Student
+
+The trained Random Forest model is also used to predict the result of a new student.
+
+Example student:
+
+```text
+Study Hours: 6
+Attendance: 90
+Assignment Score: 82
+Midterm Score: 85
+Exam Score: 88
+```
+
+The model predicts whether this student will:
+
+```text
+Pass
+```
+
+or:
+
+```text
+Fail
+```
+
+---
+
+# Predicting Multiple Students
+
+The project also predicts results for multiple new students.
+
+Example:
+
+```python
+students = np.array([
+    [2, 65, 55, 50, 52],
+    [5, 82, 75, 70, 72],
+    [8, 95, 92, 90, 94]
+])
+```
+
+The model predicts the result for each student.
+
+The results are displayed as:
+
+```text
+Student 1: Pass/Fail
+Student 2: Pass/Fail
+Student 3: Pass/Fail
+```
+
+The exact predictions are generated by the trained model.
+
+---
+
+# Random Forest Tree Comparison
+
+The project compares Random Forest models using different numbers of trees.
+
+The following values are tested:
+
+```text
+10
+50
+100
+200
+```
+
+The code:
+
+```python
+for trees in [10, 50, 100, 200]:
+```
+
+creates a Random Forest with each number of trees and calculates its accuracy.
+
+This helps demonstrate how changing the number of trees can affect model performance.
+
+---
+
+# Feature Importance
+
+One of the main goals of this project is to understand which features are most useful to the Random Forest model.
+
+Random Forest provides feature importance through:
+
+```python
+model.feature_importances_
+```
+
+The project calculates the importance of:
+
+```text
+Study_Hours
+Attendance
+Assignment_Score
+Midterm_Score
+Exam_Score
+```
+
+Example output:
+
+```text
+Feature Importance:
+
+Study_Hours: 0.xxx
+Attendance: 0.xxx
+Assignment_Score: 0.xxx
+Midterm_Score: 0.xxx
+Exam_Score: 0.xxx
+```
+
+The exact values depend on the dataset and trained model.
+
+---
+
+# Most Important Feature
+
+The project finds the feature with the highest importance using:
+
+```python
+highest_index = np.argmax(importance)
+```
+
+Then:
+
+```python
+highest_feature = features[highest_index]
+```
+
+This identifies the feature that the Random Forest considers most important for its predictions.
+
+---
+
+# Least Important Feature
+
+The project also finds the feature with the lowest importance.
+
+It uses:
+
+```python
+least_index = np.argmin(importance)
+```
+
+Then:
+
+```python
+least_feature = features[least_index]
+```
+
+`np.argmin()` is important here because it finds the smallest value.
+
+---
+
+# Sorted Feature Importance
+
+The feature importance values are placed into a Pandas DataFrame:
+
+```python
+importance_df = pd.DataFrame({
+    "Feature": features,
+    "Importance": importance
+})
+```
+
+The features are then sorted from highest to lowest importance:
+
+```python
+importance_df = importance_df.sort_values(
+    "Importance",
+    ascending=False
+)
+```
+
+This makes it easier to see which features are most important to the model.
+
+---
+
+# Feature Importance Chart
+
+The project creates a bar chart to visualize feature importance.
+
+```python
+plt.bar(
+    importance_df["Feature"],
+    importance_df["Importance"]
+)
+```
+
+The chart shows:
+
+```text
+X-axis → Features
+Y-axis → Importance
+```
+
+This provides a visual way to compare the importance of the five features.
+
+---
+
+# Decision Tree vs Random Forest
+
+The project also compares two machine learning models:
+
+```text
+Decision Tree
+Random Forest
+```
+
+A Decision Tree model is created using:
+
+```python
+decision_tree = DecisionTreeClassifier(
+    random_state=42
+)
+```
+
+A Random Forest model is created using:
+
+```python
+random_forest = RandomForestClassifier(
+    n_estimators=100,
+    random_state=42
+)
+```
+
+Both models are trained using the same training data and evaluated using the same test data.
+
+---
+
+# Model Comparison
+
+The accuracy of both models is displayed:
+
+```text
+Decision Tree Accuracy: 0.xx
+Random Forest Accuracy: 0.xx
+```
+
+The program then compares the two values.
+
+If Random Forest has higher accuracy:
+
+```text
+Random Forest performed better.
+```
+
+If Decision Tree has higher accuracy:
+
+```text
+Decision Tree performed better.
+```
+
+If both have the same accuracy:
+
+```text
+Both models achieved the same accuracy.
+```
+
+---
+
+# Random Forest vs Decision Tree
+
+A Decision Tree uses a single tree to make predictions.
+
+Random Forest uses multiple decision trees and combines their predictions.
+
+Simplified:
+
+```text
+Decision Tree
+      ↓
+One Tree
+      ↓
+Prediction
+```
+
+Random Forest:
+
+```text
+Tree 1 ──┐
+Tree 2 ──┤
+Tree 3 ──┤
+Tree 4 ──┤
+   ...   ├──→ Final Prediction
+Tree 100 ┘
+```
+
+Random Forest can often provide more stable predictions than a single decision tree.
+
+---
+
+# Important Concept: Feature Importance
+
+Feature importance tells us how useful each feature was to the Random Forest model when making predictions.
+
+For example, if:
+
+```text
+Exam_Score: 0.40
+```
+
+has a higher importance than:
+
+```text
+Attendance: 0.10
+```
+
+then the model relied more heavily on `Exam_Score` than `Attendance` when making its predictions.
+
+However, feature importance does not mean that the feature causes the result.
+
+---
+
+# Feature Importance vs Correlation
+
+Feature importance and correlation are different concepts.
+
+### Correlation
+
+Correlation measures the relationship between two numerical variables.
+
+For example:
+
+```text
+Study Hours ↔ Exam Score
+```
+
+### Feature Importance
+
+Feature importance tells us how useful a feature is to a particular machine learning model.
+
+Therefore:
+
+```text
+Correlation ≠ Feature Importance
+```
+
+A feature can have a strong correlation with the target-related variable but not necessarily have the highest importance in a Random Forest model.
+
+---
+
+# Machine Learning Workflow
+
+The complete workflow in this project is:
+
+```text
+Student Dataset
+       ↓
+Load Dataset
+       ↓
+Select Features
+       ↓
+Create Target
+       ↓
+Train/Test Split
+       ↓
+Train Random Forest
+       ↓
+Make Predictions
+       ↓
+Calculate Accuracy
+       ↓
+Create Confusion Matrix
+       ↓
+Predict New Students
+       ↓
+Calculate Feature Importance
+       ↓
+Sort Features
+       ↓
+Create Feature Importance Chart
+       ↓
+Train Decision Tree
+       ↓
+Compare Models
+       ↓
+Select Better Model
+```
+
+---
+
+# What I Learned
+
+Through this project, I learned how Random Forest can be used for classification.
+
+I learned how multiple decision trees can work together to make predictions.
+
+I also learned how to evaluate a classification model using accuracy and a confusion matrix.
+
+Another important concept I learned was feature importance.
+
+I learned how to identify the most and least important features and how to visualize their importance using a bar chart.
+
+I also learned how to compare a Decision Tree with a Random Forest model.
+
+Finally, I learned that feature importance and correlation are different concepts and should not be treated as the same thing.
+
+---
+
+# Previous Skills Used
+
+This project builds on skills I learned in previous projects, including:
+
+- Python
+- NumPy
+- Pandas
+- Data Cleaning
+- Data Analysis
+- Statistics
+- Data Visualization
+- Logistic Regression
+- Decision Trees
+- Random Forest
+- Model Evaluation
+
+---
+
+# Project Structure
+
+```text
+Day 17
+│
+├── student_data_visualization.py
+├── student_data.csv
+└── README.md
+```
+
+You can rename the Python file to match the actual filename you use.
+
+For example:
+
+```text
+day17_model_analysis.py
+```
+
+---
+
+# Installation
+
+Make sure Python is installed on your computer.
+
+Install the required libraries:
+
+```bash
+pip install pandas numpy matplotlib scikit-learn
+```
+
+---
+
+# How to Run
+
+Open a terminal in the project directory.
+
+Run:
+
+```bash
+python day17_model_analysis.py
+```
+
+Replace the filename with your actual Python filename if it is different.
+
+---
+
+# Program Output
+
+The program displays:
+
+- First five rows of the dataset
+- Feature data
+- Target data
+- Training and testing data shapes
+- Random Forest predictions
+- Random Forest accuracy
+- Actual vs predicted results
+- Confusion matrix
+- New student prediction
+- Multiple student predictions
+- Random Forest tree comparison
+- Feature importance
+- Most important feature
+- Least important feature
+- Sorted feature importance
+- Feature importance chart
+- Decision Tree accuracy
+- Random Forest accuracy
+- Best model
+
+---
+
+# Future Improvements
+
+In future projects, I plan to:
+
+- Use larger datasets
+- Improve data preprocessing
+- Tune Random Forest hyperparameters
+- Use cross-validation
+- Compare more machine learning algorithms
+- Add precision, recall, and F1 score
+- Create ROC curves
+- Create a more advanced model evaluation system
+- Build an interactive machine learning application
+- Deploy a student performance prediction system
+
+---
+
+# Conclusion
+
+This project helped me understand how Random Forest can be used to predict student outcomes.
+
+I practiced training a Random Forest model, making predictions, evaluating model performance, and comparing it with a Decision Tree.
+
+I also learned how to analyze feature importance and visualize which features the model considered more useful.
+
+This project represents another important step in my Artificial Intelligence and Machine Learning learning journey and builds a stronger foundation for more advanced machine learning projects.

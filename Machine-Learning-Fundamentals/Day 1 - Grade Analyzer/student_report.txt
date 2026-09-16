@@ -1,0 +1,15 @@
+Student Performance Report
+
+Tim
+Average: 87.67
+Category: Good
+
+Gim
+Average: 75.00
+Category: Good
+
+Mim
+Average: 65.00
+Category: Average
+
+Highest Performer: Tim (87.67)
